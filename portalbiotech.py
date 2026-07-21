@@ -1,9 +1,8 @@
-import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#Importing the datafile and making sure it ha trasferred properly 
-datafile = pd.read_csv("/Users/vesoelisabeth/Downloads/portal_ds_task/peptide_retention.csv")
+#Importing the datafile and making sure it has trasferred properly 
+datafile = pd.read_csv("peptide_retention.csv")
 print(datafile.head(10))
 
 
@@ -11,12 +10,6 @@ print(datafile.head(10))
 labels = ('ID', 'PeptideSequence','Modifications', 'RetentionTime')
 df= pd.DataFrame(datafile, columns=labels)
 
-#Questions I can explore: 
-#Do PTM contribute to the retention longevity
-#Does acetylation have a larger impact than oxidation
-#How does PTM of specific amino acids influence the retention time
-#Maybe play around with the prediction of future PTMs
-#Maybe compare the data to the DeepLC performance
 
 #Step 1: Data cleaning
 df.fillna("", inplace=True)
@@ -78,15 +71,14 @@ groups = [
 plt.violinplot(groups, showmeans=True, showmedians=True)
 plt.xticks([1,2,3], ['Acetylation','Oxidation','Unmodified'])
 plt.ylabel('Retention Time')
+plt.title('Retention Time Distribution by PTM Category')
 plt.show()
 
-#Step 4: How does PTM of specific amino acids influence the retention time?
-# OR Does the position of the PTM matter?
 
-df['PeptideLength'] = df['PeptideSequence'].str.len()
+#Step 4: Which amino acids are most frequently modified?
+
 df['Position'] = df['Modifications'].str.extract(r'(\d+)\|')
 df['Position'] = pd.to_numeric(df['Position'])
-
 
 def get_modif_aa(row):
     if pd.isna(row['Position']):
@@ -98,3 +90,7 @@ df['Modified_aa'] = df.apply(get_modif_aa, axis=1)
 print(df['Modified_aa'].value_counts())
 
 print(df.groupby('Modified_aa')['RetentionTime'].agg(['count', 'mean', 'median']))
+
+#Other questions I could explore: 
+#Maybe play around with the prediction of future PTMs
+#Maybe compare the data to the DeepLC performance
