@@ -91,6 +91,3 @@ print(df['Modified_aa'].value_counts())
 
 print(df.groupby('Modified_aa')['RetentionTime'].agg(['count', 'mean', 'median']))
 
-#Other questions I could explore: 
-#Maybe play around with the prediction of future PTMs
-#Maybe compare the data to the DeepLC performance
