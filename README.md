@@ -95,7 +95,6 @@ Given additional time, several analyses could extend this exploratory work:
 
 The analysis was performed using:
 - Python 3
-- NumPy
 - pandas
 - matplotlib
 
